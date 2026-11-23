@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Langage C – Portfolio numérique</title><link rel="stylesheet" href="../css/style.css"></head>
+<body><a class="skip" href="#main">Aller au contenu</a><header><a class="brand" href="../index.html">Adem Mejri</a>
+<button id="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+<button id="theme-btn" aria-label="Changer de thème">Mode sombre</button>
+<nav id="nav" aria-label="Navigation principale"><a href="../index.html">Accueil</a><a href="../digital-skills/cybersecurite.html">Cybersécurité</a><a href="../digital-skills/prompt-engineering.html">Prompts</a><a href="../digital-skills/creation-contenu.html">Contenu</a><a href="../developpement/python.html">Python</a><a href="../developpement/langage-c.html" aria-current="page">C</a><a href="../developpement/algorithmique.html">Algo</a><a href="../systemes/systemes-exploitation.html">Systèmes</a><a href="../systemes/architecture-electronique.html">Architecture</a><a href="../captures.html">Captures</a></nav></header>
+<main id="main"><h1>Langage C : 3 programmes</h1><section class="card"><h2>Programme 1 : Parité et signe (variables, conditions)</h2><h3>Problème</h3><p>Dire si un entier est pair ou impair, positif, négatif ou nul.</p>
+<h3>Code source</h3><p><a href="code/pair_impair.c">Télécharger pair_impair.c</a></p><pre><code>#include &lt;stdio.h&gt;
+
+int main(void) {
+    int n;
+    printf(&quot;Entre un entier : &quot;);
+    scanf(&quot;%d&quot;, &amp;n);
+    if (n % 2 == 0) printf(&quot;%d est pair\n&quot;, n);
+    else printf(&quot;%d est impair\n&quot;, n);
+    if (n &gt; 0) printf(&quot;Il est positif\n&quot;);
+    else if (n &lt; 0) printf(&quot;Il est négatif\n&quot;);
+    else printf(&quot;Il est nul\n&quot;);
+    return 0;
+}
+</code></pre>
+<h3>Fonctionnement</h3><p><code>scanf</code> lit l'entier. L'opérateur <code>%</code> donne le reste de la division par 2 : reste 0 = pair. Une chaîne <code>if / else if / else</code> teste le signe. Compilation : <code>gcc pair_impair.c -o pair_impair</code>.</p>
+<h3>Exécution (sortie réelle du programme)</h3><pre><code>Entre un entier : -7 est impair
+Il est négatif
+</code></pre>
+<h3>Capture d'écran</h3><figure style="margin:1rem 0"><img src="../medias/captures/c-parite.png" alt="Terminal : compilation avec gcc -Wall sans avertissement, puis -7 est déclaré impair et négatif." style="max-width:100%;height:auto;border-radius:6px"><figcaption><small>Exécution réelle dans le terminal.</small></figcaption></figure><h3>Difficultés rencontrées</h3><p>Test avec -7 : en C, <code>-7 % 2</code> vaut -1, donc le test « égal à 0 » est faux et le programme conclut correctement « impair ». Compilation sans avertissement avec <code>-Wall</code>.</p></section><section class="card"><h2>Programme 2 : Somme, moyenne, maximum (boucle, tableau)</h2><h3>Problème</h3><p>Parcourir un tableau de 5 entiers.</p>
+<h3>Code source</h3><p><a href="code/tableau.c">Télécharger tableau.c</a></p><pre><code>#include &lt;stdio.h&gt;
+
+int main(void) {
+    int t[5] = {12, 7, 19, 3, 15};
+    int somme = 0, max = t[0];
+    for (int i = 0; i &lt; 5; i++) {
+        somme += t[i];
+        if (t[i] &gt; max) max = t[i];
+    }
+    printf(&quot;Somme = %d\n&quot;, somme);
+    printf(&quot;Moyenne = %.2f\n&quot;, somme / 5.0);
+    printf(&quot;Maximum = %d\n&quot;, max);
+    return 0;
+}
+</code></pre>
+<h3>Fonctionnement</h3><p>La boucle <code>for</code> parcourt les indices 0 à 4, cumule la somme et garde le plus grand. On divise par <code>5.0</code> (et non 5) pour obtenir une moyenne décimale.</p>
+<h3>Exécution (sortie réelle du programme)</h3><pre><code>Somme = 56
+Moyenne = 11.20
+Maximum = 19
+</code></pre>
+<h3>Capture d'écran</h3><figure style="margin:1rem 0"><img src="../medias/captures/c-tableau.png" alt="Terminal : somme 56, moyenne 11.20 et maximum 19 du tableau." style="max-width:100%;height:auto;border-radius:6px"><figcaption><small>Exécution réelle dans le terminal.</small></figcaption></figure><h3>Difficultés rencontrées</h3><p>La moyenne utilise <code>somme / 5.0</code> : avec <code>/ 5</code> les deux entiers donneraient une division entière (11 au lieu de 11.20).</p></section><section class="card"><h2>Programme 3 : Échange et factorielle (fonctions, pointeurs)</h2><h3>Problème</h3><p>Échanger deux variables et calculer 5!.</p>
+<h3>Code source</h3><p><a href="code/pointeurs.c">Télécharger pointeurs.c</a></p><pre><code>#include &lt;stdio.h&gt;
+
+void echanger(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int factorielle(int n) {
+    int r = 1;
+    for (int i = 2; i &lt;= n; i++) r *= i;
+    return r;
+}
+
+int main(void) {
+    int x = 4, y = 9;
+    printf(&quot;Avant : x=%d y=%d\n&quot;, x, y);
+    echanger(&amp;x, &amp;y);
+    printf(&quot;Après : x=%d y=%d\n&quot;, x, y);
+    printf(&quot;5! = %d\n&quot;, factorielle(5));
+    return 0;
+}
+</code></pre>
+<h3>Fonctionnement</h3><p><code>echanger</code> reçoit les <strong>adresses</strong> (<code>&amp;x</code>) et modifie les vraies variables via <code>*a</code> et <code>*b</code>. Sans pointeurs, la fonction travaillerait sur des copies.</p>
+<h3>Exécution (sortie réelle du programme)</h3><pre><code>Avant : x=4 y=9
+Après : x=9 y=4
+5! = 120
+</code></pre>
+<h3>Capture d'écran</h3><figure style="margin:1rem 0"><img src="../medias/captures/c-pointeurs.png" alt="Terminal : échange de x=4 et y=9, puis 5! = 120." style="max-width:100%;height:auto;border-radius:6px"><figcaption><small>Exécution réelle dans le terminal.</small></figcaption></figure><h3>Difficultés rencontrées</h3><p><code>echanger</code> reçoit des pointeurs (<code>&amp;x</code>, <code>&amp;y</code>). Si on passait x et y directement, la fonction travaillerait sur des copies et rien ne serait échangé (passage par valeur).</p></section><section><h2>Python et C</h2><div class="scroll"><table><tr><th>Critère</th><th>Python</th><th>C</th></tr>
+<tr><td>Syntaxe</td><td>Courte, l'indentation structure le code</td><td>Plus verbeuse, accolades et points-virgules</td></tr>
+<tr><td>Typage</td><td>Dynamique : une variable change de type</td><td>Statique : le type est déclaré</td></tr>
+<tr><td>Mémoire</td><td>Gérée automatiquement</td><td>Gérée à la main (adresses, pointeurs)</td></tr>
+<tr><td>Rapidité</td><td>Plus lent (interprété)</td><td>Très rapide (compilé)</td></tr>
+<tr><td>Usages</td><td>Scripts, données, IA, prototypes</td><td>Systèmes, embarqué, performance</td></tr></table></div>
+<p>Tableau rédigé avec l'aide de Claude.</p></section><section><h2>Quiz de révision</h2><div id="quiz" class="card" data-q="c"></div></section><aside class="ai"><h2>Transparence IA</h2><dl><dt>Outils utilisés</dt><dd>Claude,VScode,reddit</dd><dt>Rôle de l'IA</dt><dd>design de site web <ati<<ons ; les captures montrent la compilation (-Wall) et l'exécution réelles.</dd><dt>Ce que j'ai fait moi-même</dt><dd>les codes,compilés aveSc le terminal</dd><dt>Sources vérifiées</dt><dd>Compilation sans avertissement ; sorties réelles affichées.</dd></dl></aside></main>
+<footer><p>Portfolio numérique – Étudiant 1ère année – Informatique</p></footer>
+<script src="../js/script.js"></script></body></html>

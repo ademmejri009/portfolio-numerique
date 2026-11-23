@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python – Portfolio numérique</title><link rel="stylesheet" href="../css/style.css"></head>
+<body><a class="skip" href="#main">Aller au contenu</a><header><a class="brand" href="../index.html">Adem Mejri</a>
+<button id="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+<button id="theme-btn" aria-label="Changer de thème">Mode sombre</button>
+<nav id="nav" aria-label="Navigation principale"><a href="../index.html">Accueil</a><a href="../digital-skills/cybersecurite.html">Cybersécurité</a><a href="../digital-skills/prompt-engineering.html">Prompts</a><a href="../digital-skills/creation-contenu.html">Contenu</a><a href="../developpement/python.html" aria-current="page">Python</a><a href="../developpement/langage-c.html">C</a><a href="../developpement/algorithmique.html">Algo</a><a href="../systemes/systemes-exploitation.html">Systèmes</a><a href="../systemes/architecture-electronique.html">Architecture</a><a href="../captures.html">Captures</a></nav></header>
+<main id="main"><h1>Python : 3 mini-projets</h1><section class="card"><h2>Projet 1 : Calculatrice</h2><h3>Problème</h3><p>Calculer une opération saisie sous la forme « 8 + 4 », sans planter sur une division par zéro.</p>
+<h3>Code source</h3><p><a href="code/calculatrice.py">Télécharger calculatrice.py</a></p><pre><code>def calculer(a, op, b):
+    if op == &quot;+&quot;: return a + b
+    if op == &quot;-&quot;: return a - b
+    if op == &quot;*&quot;: return a * b
+    if op == &quot;/&quot;:
+        if b == 0:
+            return &quot;Erreur : division par zéro&quot;
+        return a / b
+    return &quot;Opérateur inconnu&quot;
+
+while True:
+    ligne = input(&quot;Calcul (ex: 8 + 4) ou &#x27;q&#x27; pour quitter : &quot;)
+    if ligne == &quot;q&quot;:
+        break
+    try:
+        a, op, b = ligne.split()
+        print(&quot;Résultat :&quot;, calculer(float(a), op, float(b)))
+    except ValueError:
+        print(&quot;Format invalide, écris : nombre opérateur nombre&quot;)
+</code></pre>
+<h3>Fonctionnement</h3><p>La fonction <code>calculer</code> choisit l'opération avec des <code>if</code>. La boucle <code>while True</code> lit une ligne, la découpe avec <code>split()</code> et convertit les nombres en <code>float</code>. Un <code>try/except</code> gère les formats invalides.</p>
+<h3>Exécution (sortie réelle du programme)</h3><pre><code>Calcul (ex: 8 + 4) ou &#x27;q&#x27; pour quitter : Résultat : 12.0
+Calcul (ex: 8 + 4) ou &#x27;q&#x27; pour quitter : Résultat : Erreur : division par zéro
+Calcul (ex: 8 + 4) ou &#x27;q&#x27; pour quitter : Résultat : Opérateur inconnu
+Calcul (ex: 8 + 4) ou &#x27;q&#x27; pour quitter : </code></pre>
+<h3>Capture d'écran</h3><figure style="margin:1rem 0"><img src="../medias/captures/python-calculatrice.png" alt="Terminal : calculatrice.py calcule 8 + 4 = 12.0, refuse « 8+4 » sans espaces, gère 5 / 0 et un opérateur inconnu." style="max-width:100%;height:auto;border-radius:6px"><figcaption><small>Exécution réelle dans le terminal.</small></figcaption></figure><h3>Difficultés rencontrées</h3><p>En testant « 8+4 » sans espaces, <code>split()</code> ne découpe rien et le programme affiche « Format invalide » : l'espace est obligatoire. La division par zéro est gérée par un <code>if</code> avant le calcul, et « 3 ^ 2 » donne « Opérateur inconnu ».</p></section><section class="card"><h2>Projet 2 : Jeu de devinettes</h2><h3>Problème</h3><p>Deviner un nombre secret entre 1 et 100 avec des indices.</p>
+<h3>Code source</h3><p><a href="code/devinette.py">Télécharger devinette.py</a></p><pre><code>import random, sys
+
+secret = int(sys.argv[1]) if len(sys.argv) &gt; 1 else random.randint(1, 100)
+essais = 0
+print(&quot;J&#x27;ai choisi un nombre entre 1 et 100.&quot;)
+while True:
+    essais += 1
+    try:
+        n = int(input(&quot;Ton choix : &quot;))
+    except ValueError:
+        print(&quot;Entre un nombre entier.&quot;)
+        continue
+    if n &lt; secret:
+        print(&quot;Plus grand !&quot;)
+    elif n &gt; secret:
+        print(&quot;Plus petit !&quot;)
+    else:
+        print(f&quot;Bravo, trouvé en {essais} essais !&quot;)
+        break
+</code></pre>
+<h3>Fonctionnement</h3><p><code>random.randint</code> tire le nombre secret (ici fixé à 72 pour la démonstration). Chaque tour compare le choix au secret et affiche « plus grand » ou « plus petit ». Le compteur <code>essais</code> donne le score.</p>
+<h3>Exécution (sortie réelle du programme)</h3><pre><code>J&#x27;ai choisi un nombre entre 1 et 100.
+Ton choix : Plus grand !
+Ton choix : Plus petit !
+Ton choix : Entre un nombre entier.
+Ton choix : Plus grand !
+Ton choix : Bravo, trouvé en 5 essais !
+</code></pre>
+<h3>Capture d'écran</h3><figure style="margin:1rem 0"><img src="../medias/captures/python-devinette.png" alt="Terminal : devinette.py avec le nombre secret 42 ; indices « Plus petit » et « Plus grand », une saisie invalide, puis victoire en 4 essais." style="max-width:100%;height:auto;border-radius:6px"><figcaption><small>Exécution réelle dans le terminal.</small></figcaption></figure><h3>Difficultés rencontrées</h3><p>Une saisie comme « abc » déclenche une <code>ValueError</code> gérée par <code>try/except</code>. Observation : cet essai est quand même compté, car <code>essais += 1</code> est placé avant le <code>try</code> (4 essais pour 3 nombres valides).</p></section><section class="card"><h2>Projet 3 : Gestionnaire de notes</h2><h3>Problème</h3><p>Saisir des notes par matière puis calculer la moyenne et la meilleure matière.</p>
+<h3>Code source</h3><p><a href="code/notes.py">Télécharger notes.py</a></p><pre><code>notes = {}
+
+while True:
+    nom = input(&quot;Matière (ou &#x27;fin&#x27;) : &quot;)
+    if nom == &quot;fin&quot;:
+        break
+    try:
+        notes[nom] = float(input(&quot;Note sur 20 : &quot;))
+    except ValueError:
+        print(&quot;Note invalide, matière ignorée.&quot;)
+
+if notes:
+    moyenne = sum(notes.values()) / len(notes)
+    meilleure = max(notes, key=notes.get)
+    print(f&quot;Moyenne : {moyenne:.2f} / 20&quot;)
+    print(f&quot;Meilleure matière : {meilleure} ({notes[meilleure]})&quot;)
+else:
+    print(&quot;Aucune note saisie.&quot;)
+</code></pre>
+<h3>Fonctionnement</h3><p>Un dictionnaire associe chaque matière à sa note. <code>sum(...)/len(...)</code> donne la moyenne et <code>max(notes, key=notes.get)</code> retrouve la meilleure matière.</p>
+<h3>Exécution (sortie réelle du programme)</h3><pre><code>Matière (ou &#x27;fin&#x27;) : Note sur 20 : Matière (ou &#x27;fin&#x27;) : Note sur 20 : Matière (ou &#x27;fin&#x27;) : Note sur 20 : Matière (ou &#x27;fin&#x27;) : Moyenne : 14.50 / 20
+Meilleure matière : Python (17.5)
+</code></pre>
+<h3>Capture d'écran</h3><figure style="margin:1rem 0"><img src="../medias/captures/python-notes.png" alt="Terminal : notes.py calcule une moyenne de 16.50 et la meilleure matière, en ignorant une note invalide." style="max-width:100%;height:auto;border-radius:6px"><figcaption><small>Exécution réelle dans le terminal.</small></figcaption></figure><h3>Difficultés rencontrées</h3><p>Une note invalide (« abc ») est ignorée avec la matière. Limite constatée : une note de 25 serait acceptée, car le programme ne vérifie pas l'intervalle de 0 à 20 ; amélioration possible.</p></section><section><h2>Quiz de révision</h2><div id="quiz" class="card" data-q="python"></div></section><aside class="ai"><h2>Transparence IA</h2><dl><dt>Outils utilisés</dt><dd>Claude,VScode,</dd><dt>Rôle de l'IA</dt><dd>desgin de site web</dd><dt>Ce que j'ai fait moi-même</dt><dd> intégré les projets dans mon site.  écrits les codes puis exécutés et capturés dans un terminl.</dd><dt>Sources vérifiées</dt><dd>Les sorties affichées proviennent de l'exécution réelle des fichiers du dépôt.</dd></dl></aside></main>
+<footer><p>Portfolio numérique – Étudiant 1ère année – Informatique</p></footer>
+<script src="../js/script.js"></script></body></html>

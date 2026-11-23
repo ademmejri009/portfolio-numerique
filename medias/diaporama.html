@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sécurité sur Internet – diaporama interactif</title>
+<style>:root{--bg:#f3f5f0;--ink:#14213d;--acc:#1f5f8b;--hi:#ffd23f}@media(prefers-color-scheme:dark){:root{--bg:#0f1724;--ink:#eef1f6;--acc:#7fc4f0}}
+body{margin:0;background:var(--bg);color:var(--ink);font:1.1rem/1.6 system-ui,sans-serif}main{max-width:46rem;margin:0 auto;padding:1.2rem}
+nav{display:flex;flex-wrap:wrap;gap:.4rem}button{font:inherit;cursor:pointer;border:2px solid var(--acc);background:transparent;color:var(--ink);border-radius:6px;padding:.35rem .8rem}
+button[aria-current=true],.go{background:var(--acc);color:#fff}button:focus-visible{outline:3px solid var(--hi);outline-offset:2px}
+section{min-height:15rem;border-left:6px solid var(--hi);padding:.5rem 1rem;margin:1rem 0}h1{font:700 1.8rem Georgia,serif}.bar{display:flex;gap:.5rem;justify-content:space-between}</style></head>
+<body><main><nav id="menu" aria-label="Menu du diaporama"></nav><section id="s" aria-live="polite"></section>
+<div class="bar"><button id="p">← Précédent</button><button id="v" class="go">🔊 Écouter la narration</button><button id="n">Suivant →</button></div>
+<p><small>Narration : voix de synthèse du navigateur, lue à partir du script de chaque diapositive.</small></p></main>
+<script>
+var S=[["Accueil","Sécurité sur Internet","Ce diaporama présente en cinq étapes les menaces d'Internet et les bons réflexes pour s'en protéger. Choisissez une rubrique dans le menu pour suivre votre propre parcours."],
+["Menaces","Les logiciels malveillants","Les principaux logiciels malveillants sont les virus, les vers, les chevaux de Troie, les ransomwares et les spywares. Un ransomware chiffre vos fichiers et exige une rançon pour les rendre."],
+["Risques","Les risques du quotidien","Le hameçonnage, ou phishing, utilise de faux messages pour voler vos identifiants. Les arnaques, le vol de comptes et les fuites de données sont les autres risques courants."],
+["Protection","Se protéger","Utilisez des mots de passe longs et uniques, rangés dans un gestionnaire. Activez la double authentification et faites régulièrement les mises à jour de vos appareils."],
+["Vigilance","Rester vigilant","Ne cliquez pas sur un lien ou une pièce jointe suspects. Sur un Wi-Fi public, évitez les comptes sensibles ou utilisez un VPN."],
+["Conclusion","Ce qu'il faut retenir","Aucune protection n'est parfaite, mais de bons réflexes réduisent fortement les risques : mots de passe solides, double authentification, mises à jour et vigilance."]];
+var i=0,m=document.getElementById("menu"),s=document.getElementById("s");
+S.forEach(function(d,k){var b=document.createElement("button");b.textContent=d[0];b.onclick=function(){i=k;r()};m.appendChild(b)});
+function r(){speechSynthesis&&speechSynthesis.cancel();s.innerHTML="<h1></h1><p></p>";s.firstChild.textContent=S[i][1];s.lastChild.textContent=S[i][2];
+[].forEach.call(m.children,function(b,k){b.setAttribute("aria-current",k==i)})}
+document.getElementById("p").onclick=function(){i=Math.max(0,i-1);r()};document.getElementById("n").onclick=function(){i=Math.min(S.length-1,i+1);r()};
+document.getElementById("v").onclick=function(){if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(S[i][2]);u.lang="fr-FR";speechSynthesis.speak(u)};
+r();</script></body></html>
